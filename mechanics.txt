@@ -22,7 +22,6 @@ Rope hanging up the title/logo - makes a good effect and adds to the cardboard f
 title in home screen = logo of the game
 title/logo gives a feel (cardboardy)
 the title can be seen Visually above the background
-appbar shape is different
 
 The background is behind everything and that can be seen visually by the background being cut off by the title (like the clouds) or the buttons (the mountain)
 character is like a mascot and a noticeable/rememberable thing of the game
@@ -40,14 +39,14 @@ like for e.g. the tutorial, limit of CGN
 _________|____________________________________|____________________|
          | show the tutorial and then show    | might have to make |
          | close button and tell them that    | tutorial a main/   |  possible solution to the "if i cant do it":
-tutorial | if they every wanna run the        | prominent button   |  see if provider state stuff can handle and remember the state of "i have seen the tutorial" and their limit
-	       | tutorial again they can find it    | like in raj's num  |  if not see if firebase can do smthing like that and if i can use firebase
+tutorial | if they every wanna run the        | prominent button   |  see if provider state stuff can handle and remember the state of "i have seen the tutorial" and what their limit is
+	 | tutorial again they can find it    | like in raj's num  |  if not see if firebase can do smthing like that and if i can use firebase
          | in menu                            | pred               |
 _________|____________________________________|____________________|  
          | show the input, since the tutorial | might have to ask  |
          | should have explained about the    | at each game       | 
 CGN      | limit. then tell them they can     | what there limit   | 
-	       | always change the limit if they    | like in raj's num  |
+	 | always change the limit if they    | like in raj's num  |
          | want (same place as tutorial)      | pred               |
 _________|____________________________________|____________________|
 

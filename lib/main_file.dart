@@ -13,9 +13,13 @@ void main() {
 
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
-    runApp(const MyApp()); 
+
+    runApp(const MyApp());
   });
 }
+// def -  hyperbole -  eg, def - jargon - eg, def - irony - eg, def - sarcasm - eg
+// def - colloquialism - eg, def - puns - eg, def - taboo language - eg
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -30,23 +34,25 @@ class MyApp extends StatelessWidget {
           seedColor: Colors.green,
           brightness: Brightness.dark,
           surface: const Color(0xff003909),
+          //rgb(188, 139, 195)
         ),
       ),
-      home:  Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: Center(
-        child: ElevatedButton(
-          child: const Text('Go to Counter Page'),
-          onPressed: () {
-            Navigator.of(context).push(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Home')),
+        body: Center(
+          child: ElevatedButton(
+            child: const Text('Go to Counter Page'),
+            onPressed: () {
+              Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => Container(), 
-              ),
-            );
-          },
-        ),
+              builder: (context) => Container(),
+          ),
+       );
+        },
       ),
-    ),
+   ),
+      ),
     );
   }
 }
+
