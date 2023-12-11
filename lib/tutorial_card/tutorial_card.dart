@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:guess_o_rama/logo.dart';
+import 'package:guess_o_rama/widgets/logo.dart';
 import 'package:guess_o_rama/tutorial_card/tutorial_clipper.dart';
 
 class TutorialCard extends StatelessWidget {

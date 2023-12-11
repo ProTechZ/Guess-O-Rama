@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_o_rama/start_screen.dart';
+import 'package:guess_o_rama/screens/start_screen.dart';
 
 void main() {
   runApp(const MyApp());
