@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/main.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/screens/home_screen.dart';
+import 'package:guess_o_rama/functions/utility_functions.dart';
 
 class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
   const ChooseNumberLimitScreen({super.key});
@@ -13,34 +14,23 @@ class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
 
 class _ChooseNumberLimitScreenState
     extends ConsumerState<ChooseNumberLimitScreen> {
-  final _lowerNumLimitController = TextEditingController();
-  final _upperNumLimitController = TextEditingController();
+  final _maxNumToGuessController = TextEditingController();
 
   void _submitNumLimit(WidgetRef ref) {
-    var lowerNumLimit = int.tryParse(_lowerNumLimitController.text);
-    var upperNumLimit = int.tryParse(_upperNumLimitController.text);
+    var maxNumToGuess = int.tryParse(_maxNumToGuessController.text);
 
-    if (lowerNumLimit == null || upperNumLimit == null) {
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text("My title"),
-          content: const Text('this is my msg'),
-          actions: [
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        ),
+    // TODO: make choosing the upper lim a slider
+    if (maxNumToGuess == null) {
+      Utils().showErrorDialog(
+        context,
+        "My title",
+        "Please enter a value for the upper limit",
       );
     } else {
-      ref.read(lowerNumLimitProvider.notifier).state = lowerNumLimit;
-      ref.read(upperNumLimitProvider.notifier).state = upperNumLimit;
+      ref.read(maxNumToGuessProvider.notifier).state = maxNumToGuess;
+
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const StartScreen(),
+        builder: (context) => const HomeScreen(),
       ));
     }
   }
@@ -51,14 +41,7 @@ class _ChooseNumberLimitScreenState
       body: Column(
         children: [
           TextField(
-            controller: _lowerNumLimitController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              label: Text('Lower Limit'),
-            ),
-          ),
-          TextField(
-            controller: _upperNumLimitController,
+            controller: _maxNumToGuessController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
               label: Text('Upper Limit'),

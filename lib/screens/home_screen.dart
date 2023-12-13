@@ -6,13 +6,12 @@ import 'package:guess_o_rama/widgets/logo.dart';
 import 'package:guess_o_rama/screens/choose_num_limit_screen.dart';
 import 'package:guess_o_rama/widgets/settings_dropdown.dart';
 
-class StartScreen extends ConsumerWidget {
-  const StartScreen({super.key});
+class HomeScreen extends ConsumerWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final lowerNumLimit = ref.watch(lowerNumLimitProvider).toString();
-    final upperNumLimit = ref.watch(upperNumLimitProvider).toString();
+    final maxNumToGuess = ref.watch(maxNumToGuessProvider).toString();
 
     return Scaffold(
       appBar: AppBar(),
@@ -25,7 +24,7 @@ class StartScreen extends ConsumerWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TrialsLoadingScreen(),
+                  builder: (context) => const TrialsLoadingScreen(),
                 ));
               },
               child: const Text('Trials'),
@@ -33,13 +32,12 @@ class StartScreen extends ConsumerWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ChooseNumberLimitScreen(),
+                  builder: (context) => const ChooseNumberLimitScreen(),
                 ));
               },
               child: const Text('Time'),
             ),
-            Text(lowerNumLimit),
-            Text(upperNumLimit),
+            Text(maxNumToGuess),
           ],
         ),
       ),
