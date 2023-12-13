@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/main.dart';
-import 'package:guess_o_rama/screens/start_screen.dart';
+import 'package:guess_o_rama/screens/home_screen.dart';
 
 class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
   const ChooseNumberLimitScreen({super.key});
@@ -13,12 +13,14 @@ class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
 
 class _ChooseNumberLimitScreenState
     extends ConsumerState<ChooseNumberLimitScreen> {
-  final _numLimitController = TextEditingController();
+  final _lowerNumLimitController = TextEditingController();
+  final _upperNumLimitController = TextEditingController();
 
   void _submitNumLimit(WidgetRef ref) {
-    var numLimit = int.tryParse(_numLimitController.text);
+    var lowerNumLimit = int.tryParse(_lowerNumLimitController.text);
+    var upperNumLimit = int.tryParse(_upperNumLimitController.text);
 
-    if (numLimit == null) {
+    if (lowerNumLimit == null || upperNumLimit == null) {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -35,7 +37,8 @@ class _ChooseNumberLimitScreenState
         ),
       );
     } else {
-      ref.read(numLimitProvider.notifier).state = numLimit;
+      ref.read(lowerNumLimitProvider.notifier).state = lowerNumLimit;
+      ref.read(upperNumLimitProvider.notifier).state = upperNumLimit;
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const StartScreen(),
       ));
@@ -48,10 +51,17 @@ class _ChooseNumberLimitScreenState
       body: Column(
         children: [
           TextField(
-            controller: _numLimitController,
+            controller: _lowerNumLimitController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
-              label: Text('Limit'),
+              label: Text('Lower Limit'),
+            ),
+          ),
+          TextField(
+            controller: _upperNumLimitController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              label: Text('Upper Limit'),
             ),
           ),
           ElevatedButton(
@@ -59,7 +69,8 @@ class _ChooseNumberLimitScreenState
             child: const Text('OK'),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(), // go back to home screen
+            onPressed: () =>
+                Navigator.of(context).pop(), // go back to home screen
             child: const Text('Back'),
           ),
         ],

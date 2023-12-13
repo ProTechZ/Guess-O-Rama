@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:guess_o_rama/screens/start_screen.dart';
+import 'package:guess_o_rama/screens/home_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final numLimitProvider = StateProvider((ref) => 0);
+final lowerNumLimitProvider = StateProvider((ref) => 0);
+final upperNumLimitProvider = StateProvider((ref) => 100);
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
