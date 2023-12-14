@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/main.dart';
-import 'package:guess_o_rama/screens/trials_loading_screen.dart';
+import 'package:guess_o_rama/screens/loading_screen.dart';
 import 'package:guess_o_rama/widgets/logo.dart';
-import 'package:guess_o_rama/screens/choose_num_limit_screen.dart';
+import 'package:guess_o_rama/screens/choose_max_guess_screen.dart';
 import 'package:guess_o_rama/widgets/settings_dropdown.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -11,7 +11,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final maxNumToGuess = ref.watch(maxNumToGuessProvider).toString();
+    final maxGuess = ref.watch(maxGuessProvider).toString();
 
     return Scaffold(
       appBar: AppBar(),
@@ -29,15 +29,7 @@ class HomeScreen extends ConsumerWidget {
               },
               child: const Text('Trials'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const ChooseNumberLimitScreen(),
-                ));
-              },
-              child: const Text('Time'),
-            ),
-            Text(maxNumToGuess),
+            Text(maxGuess),
           ],
         ),
       ),

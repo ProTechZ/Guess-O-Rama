@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:guess_o_rama/screens/home_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final maxNumToGuessProvider = StateProvider((ref) => 100);
+final maxGuessProvider = StateProvider((ref) => 100);
+final numOfGuessesListProvider = StateProvider<List<int>>((ref) => []);
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

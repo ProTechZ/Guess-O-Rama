@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_o_rama/screens/choose_num_limit_screen.dart';
+import 'package:guess_o_rama/screens/choose_max_guess_screen.dart';
 
 class SettingsDropdown extends StatelessWidget {
   const SettingsDropdown({super.key});

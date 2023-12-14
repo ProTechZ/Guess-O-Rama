@@ -14,20 +14,20 @@ class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
 
 class _ChooseNumberLimitScreenState
     extends ConsumerState<ChooseNumberLimitScreen> {
-  final _maxNumToGuessController = TextEditingController();
+  final _maxGuessController = TextEditingController();
 
   void _submitNumLimit(WidgetRef ref) {
-    var maxNumToGuess = int.tryParse(_maxNumToGuessController.text);
+    var maxGuess = int.tryParse(_maxGuessController.text);
 
     // TODO: make choosing the upper lim a slider
-    if (maxNumToGuess == null) {
+    if (maxGuess == null) {
       Utils().showErrorDialog(
         context,
         "My title",
         "Please enter a value for the upper limit",
       );
     } else {
-      ref.read(maxNumToGuessProvider.notifier).state = maxNumToGuess;
+      ref.read(maxGuessProvider.notifier).state = maxGuess;
 
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const HomeScreen(),
@@ -41,7 +41,7 @@ class _ChooseNumberLimitScreenState
       body: Column(
         children: [
           TextField(
-            controller: _maxNumToGuessController,
+            controller: _maxGuessController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
               label: Text('Upper Limit'),

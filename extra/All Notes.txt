@@ -59,8 +59,7 @@ both are gonna be like the computer will make its CGN and the user's limit will 
 now i have to try and guess the CGN
 if i am close to the number it says [boiling, smoking, hot, warm] in the degree of closeness
 if i am far from the number it says [freezing, frosty, chilly, cold]
-if u played trials, the number of stars u get is determined by how big ur limit was and how many tries u took
-if u played time, the number of stars u get is determined by how big ur limit was and how much time u took
+ithe number of stars u get is determined by how big ur limit was and how many tries u took
 
 the farness and closeness could maybe be showed in like one of those info buttons with 2 info buttons at opposite ends of the screen
 and when u hover over the info buttons it can show either a gas fuel thing with that needle for the temperature 

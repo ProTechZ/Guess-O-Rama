@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
+import 'package:guess_o_rama/main.dart';
+import 'package:guess_o_rama/screens/results_screen.dart';
 
-class TrialsPlayingScreen extends StatefulWidget {
+class TrialsPlayingScreen extends ConsumerStatefulWidget {
   const TrialsPlayingScreen({super.key});
 
   @override
-  State<TrialsPlayingScreen> createState() => _TrialsPlayingScreenState();
+  ConsumerState<TrialsPlayingScreen> createState() =>
+      _TrialsPlayingScreenState();
 }
 
-class _TrialsPlayingScreenState extends State<TrialsPlayingScreen> {
+class _TrialsPlayingScreenState extends ConsumerState<TrialsPlayingScreen> {
   final _guessController = TextEditingController();
   final List<int> listOfGuesses = [];
-  // final numToGuess = generateNumToGuess();
+  late int numToGuess;
   int numOfGuesses = 0;
+
+  @override
+  void initState() {
+    numToGuess = Utils().createNumToGuess(ref);
+    super.initState();
+  }
 
   void submitGuess() {
     final userGuess = int.tryParse(_guessController.text);
 
     if (userGuess == null) {
-      Utils().showErrorDialog(context, 'My Title', 'Maybe try guessing a number first');
+      Utils().showErrorDialog(
+          context, 'My Title', 'Maybe try guessing a number first');
     } else if (listOfGuesses.isNotEmpty && userGuess == listOfGuesses.last) {
       // if the users current guess is the same as their previous guess
       // just to make sure they dont use up too many tries
@@ -32,6 +43,13 @@ class _TrialsPlayingScreenState extends State<TrialsPlayingScreen> {
         numOfGuesses++;
         listOfGuesses.add(userGuess);
       });
+
+      if (userGuess == numToGuess) {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const ResultsScreen(),
+        ));
+        Utils().getNumOfGuessesList(ref).add(numOfGuesses);
+      }
     }
   }
 
