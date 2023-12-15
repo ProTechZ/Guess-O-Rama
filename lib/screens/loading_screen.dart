@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
 import 'package:guess_o_rama/screens/playing_screen.dart';
 
-class TrialsLoadingScreen extends ConsumerWidget {
-  const TrialsLoadingScreen({super.key});
+class GameLoadingScreen extends ConsumerWidget {
+  const GameLoadingScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +23,7 @@ class TrialsLoadingScreen extends ConsumerWidget {
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TrialsPlayingScreen(),
+                  builder: (context) => PlayingScreen(),
                 ));
               },
               child: const Text('Play!'))

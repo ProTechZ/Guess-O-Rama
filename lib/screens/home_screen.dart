@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/screens/loading_screen.dart';
 import 'package:guess_o_rama/widgets/logo.dart';
-import 'package:guess_o_rama/screens/choose_max_guess_screen.dart';
-import 'package:guess_o_rama/widgets/settings_dropdown.dart';
+import 'package:guess_o_rama/widgets/side_drawer.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -15,7 +14,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(),
-      drawer: const SettingsDropdown(),
+      drawer: const SideDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -24,7 +23,7 @@ class HomeScreen extends ConsumerWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const TrialsLoadingScreen(),
+                  builder: (context) => const GameLoadingScreen(),
                 ));
               },
               child: const Text('Trials'),

@@ -51,6 +51,20 @@ CGN      | limit. then tell them they can     | what there limit   |
          | want (same place as tutorial)      | pred               |
 _________|____________________________________|____________________|
 
+  ((userGuess - numToGuess) / numToGuess).abs() * 100%
+
+Exp[(-Abs[Actual - Ideal]/Ideal)]
+e *       (abs(userGuess - numToGuess) / numToGuess)
+                3              1
+
+
+
+1-25         26-50      50      50-75            76-100
+cold         hot                hot               cold
+
+
+
+
 gonna be like a "coolmathgames.com (not really but kind of)" or "the wood puzzle game on mum's phone" kinda thing
 in the sense its not a game like brawl stars or clash of clans but it is a simple fun game like wood puzzle
 two versions based on how u r awarded stars - |time| and |number of guesses (potential shorter term for this = trials?)|

@@ -1,20 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:guess_o_rama/functions/utility_functions.dart';
+import 'package:guess_o_rama/screens/home_screen.dart';
+import 'package:guess_o_rama/screens/playing_screen.dart';
 
 class ResultsScreen extends ConsumerWidget {
   const ResultsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final 
+    final numOfGuessesForRecentGame = Utils().getNumOfGuessesList(ref).last;
 
     return Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          children: [
-            Text('Well Done'),
-            Text('You took ')
-          ],
-        ));
+      appBar: AppBar(automaticallyImplyLeading: false,),
+      body: Column(
+        children: [
+          Text('Well Done'),
+          Text('You took $numOfGuessesForRecentGame tries to guess my number'),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
+              ));
+            },
+            child: const Text('Home'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const PlayingScreen(),
+              ));
+            },
+            child: const Text('Play Again'),
+          ),
+        ],
+      ),
+    );
   }
 }

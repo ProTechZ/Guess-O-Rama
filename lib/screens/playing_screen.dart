@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
-import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/screens/results_screen.dart';
 
-class TrialsPlayingScreen extends ConsumerStatefulWidget {
-  const TrialsPlayingScreen({super.key});
+class PlayingScreen extends ConsumerStatefulWidget {
+  const PlayingScreen({super.key});
 
   @override
-  ConsumerState<TrialsPlayingScreen> createState() =>
-      _TrialsPlayingScreenState();
+  ConsumerState<PlayingScreen> createState() => _PlayingScreenState();
 }
 
-class _TrialsPlayingScreenState extends ConsumerState<TrialsPlayingScreen> {
+class _PlayingScreenState extends ConsumerState<PlayingScreen> {
   final _guessController = TextEditingController();
-  final List<int> listOfGuesses = [];
+  String temperature = '';
   late int numToGuess;
   int numOfGuesses = 0;
+  int? recentGuess;
 
   @override
   void initState() {
@@ -24,32 +24,68 @@ class _TrialsPlayingScreenState extends ConsumerState<TrialsPlayingScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _guessController.dispose();
+    super.dispose();
+  }
+
+  void calculateUserGuessCloseness() {
+    final userGuess = int.parse(_guessController.text);
+    final closeness = (userGuess - numToGuess).abs();
+
+    if (userGuess > numToGuess - 25 && userGuess <= numToGuess + 25) {
+      print('hi');
+      temperature = 'HOOT';
+    } else {
+      print('bye');
+      temperature = 'COOLD';
+    }
+  }
+
+  void userGuessesCorrectly() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const ResultsScreen(),
+    ));
+    Utils().getNumOfGuessesList(ref).add(numOfGuesses);
+  }
+
   void submitGuess() {
     final userGuess = int.tryParse(_guessController.text);
 
     if (userGuess == null) {
       Utils().showErrorDialog(
-          context, 'My Title', 'Maybe try guessing a number first');
-    } else if (listOfGuesses.isNotEmpty && userGuess == listOfGuesses.last) {
-      // if the users current guess is the same as their previous guess
-      // just to make sure they dont use up too many tries
+        context,
+        'My Title',
+        'Maybe try guessing a number first',
+      );
+    } else if (userGuess < 1 || userGuess > 100) {
       Utils().showErrorDialog(
         context,
         'My Title',
-        "I could have let you guess the same number and let you have another 'try' added to your count, but I'm nice, so I'm telling you to GUESS ANOTHER NUMBER!!",
+        "Please enter a value from 1-100!",
       );
-    } else {
+    }
+    //  else if (recentGuess != null && userGuess == recentGuess) {
+    //   Utils().showErrorDialog(
+    //     context,
+    //     'My Title',
+    //     "Same number",
+    //   );
+    // }
+    else {
       setState(() {
         numOfGuesses++;
-        listOfGuesses.add(userGuess);
-      });
+        recentGuess = userGuess;
 
-      if (userGuess == numToGuess) {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const ResultsScreen(),
-        ));
-        Utils().getNumOfGuessesList(ref).add(numOfGuesses);
-      }
+        if (userGuess == numToGuess) {
+          userGuessesCorrectly();
+        } else {
+          calculateUserGuessCloseness();
+        }
+
+        _guessController.text = '';
+      });
     }
   }
 
@@ -59,15 +95,19 @@ class _TrialsPlayingScreenState extends ConsumerState<TrialsPlayingScreen> {
       appBar: AppBar(),
       body: Column(
         children: [
+          Text(temperature),
+          Text(numToGuess.toString()),
           TextField(
             controller: _guessController,
             keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
               label: Text('Take a Guess!'),
             ),
           ),
           Text('You have taken $numOfGuesses tries to guess my number'),
-          ElevatedButton(onPressed: submitGuess, child: const Text('Guess!'))
+          ElevatedButton(onPressed: submitGuess, child: const Text('Guess!')),
+          // TODO:  implement restart game and go home btn
         ],
       ),
     );

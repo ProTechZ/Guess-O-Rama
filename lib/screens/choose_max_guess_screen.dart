@@ -3,6 +3,7 @@ import 'package:guess_o_rama/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/screens/home_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
+import 'package:guess_o_rama/widgets/side_drawer.dart';
 
 class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
   const ChooseNumberLimitScreen({super.key});
@@ -38,6 +39,8 @@ class _ChooseNumberLimitScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
+      drawer: const SideDrawer(),
       body: Column(
         children: [
           TextField(

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/main.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,9 @@ class Utils {
   int getMaxGuess(WidgetRef ref) => ref.read(maxGuessProvider.notifier).state;
 
   int createNumToGuess(WidgetRef ref) {
-    final maxGuess = ref.read(maxGuessProvider.notifier).state;
-    return Random().nextInt(maxGuess);
+    // final maxGuess = ref.read(maxGuessProvider.notifier).state;
+    // return Random().nextInt(maxGuess);
+    return 50;
   }
 
   void showErrorDialog(BuildContext context, String title, String message) {
