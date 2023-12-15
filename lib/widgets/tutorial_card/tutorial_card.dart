@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:guess_o_rama/widgets/logo.dart';
-import 'package:guess_o_rama/tutorial_card/tutorial_clipper.dart';
+import 'package:guess_o_rama/widgets/tutorial_card/tutorial_card_clipper.dart';
 
 class TutorialCard extends StatelessWidget {
   const TutorialCard({super.key});

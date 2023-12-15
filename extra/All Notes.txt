@@ -32,9 +32,6 @@ not saying that you need these things to make a nice button but they add to crea
 
 all colours match up with the candy feel
 
-how the game works:
-there are a few things i want to happen only when they install the app but idk if i can do that so if i cant we can js work smthing around
-like for e.g. the tutorial, limit of CGN
 
          | only when they install the app     | if i cant do that  |
 _________|____________________________________|____________________|
@@ -43,59 +40,8 @@ _________|____________________________________|____________________|
 tutorial | if they every wanna run the        | prominent button   |  see if provider state stuff can handle and remember the state of "i have seen the tutorial" and their limit
 	       | tutorial again they can find it    | like in raj's num  |  if not see if firebase can do smthing like that and if i can use firebase
          | in menu                            | pred               |
-_________|____________________________________|____________________|  
-         | show the input, since the tutorial | might have to ask  |
-         | should have explained about the    | at each game       | 
-CGN      | limit. then tell them they can     | what there limit   | 
-	       | always change the limit if they    | like in raj's num  |
-         | want (same place as tutorial)      | pred               |
 _________|____________________________________|____________________|
-
-  ((userGuess - numToGuess) / numToGuess).abs() * 100%
-
-Exp[(-Abs[Actual - Ideal]/Ideal)]
-e *       (abs(userGuess - numToGuess) / numToGuess)
-                3              1
-
-
-
-1-25         45      50      50-75            76-100
-cold         hot                hot               cold
-
-
-
 
 gonna be like a "coolmathgames.com (not really but kind of)" or "the wood puzzle game on mum's phone" kinda thing
 in the sense its not a game like brawl stars or clash of clans but it is a simple fun game like wood puzzle
 two versions based on how u r awarded stars - |time| and |number of guesses (potential shorter term for this = trials?)|
-
-both are gonna be like the computer will make its CGN and the user's limit will also be shown
-now i have to try and guess the CGN
-if i am close to the number it says [boiling, smoking, hot, warm] in the degree of closeness
-if i am far from the number it says [freezing, frosty, chilly, cold]
-ithe number of stars u get is determined by how big ur limit was and how many tries u took
-
-the farness and closeness could maybe be showed in like one of those info buttons with 2 info buttons at opposite ends of the screen
-and when u hover over the info buttons it can show either a gas fuel thing with that needle for the temperature 
-or like the upside down triangle with the colours going from blue to white or red to yellow 
-and somehow by hovering over the "freezing" (or instead the description is js alr there) it tells u how far away u r from the CGN
-
-blueredblueredblueredbluered  Freezing
-   lightbluelightredligh
-     heldjflkdjaksfdjs        Frosty
-      fkdajfkdlalsf 
-        fdkjaflsd            Chilly
-          dkfald 
-            kd               Cold
-
-
-the way it is decided if u get "freezing" or "chilly" is u take half of the limit and u divide it by 4
-lets say the user says his limit is 1-100
-so divide by 2 thats 50
-50 / 4 = 12.5 therefore
-
-37.5-50 = cold -> 38-50 = cold                one prominent issue is concerning the rounding
-25-37.5 = chilly -> 25-38 = chilly            for 2 seperate temperatues, there ranges go the the same number (38-50 & 25-38)           
-12.5-25 = frosty -> 13-25 = frosty            this is issue as if the user guesses 38 what temperatur would it say
-1-12.5 = freezing -> 1-13 = freezing          fix this by knowing when to round up and down but idk how im going to do that
-

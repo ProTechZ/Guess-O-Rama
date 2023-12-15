@@ -3,7 +3,7 @@ import 'package:guess_o_rama/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/screens/home_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
-import 'package:guess_o_rama/widgets/side_drawer.dart';
+import 'package:guess_o_rama/widgets/side_drawer/side_drawer.dart';
 
 class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
   const ChooseNumberLimitScreen({super.key});

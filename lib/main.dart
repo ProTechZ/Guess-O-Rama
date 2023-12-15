@@ -5,6 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final maxGuessProvider = StateProvider((ref) => 100);
 final numOfGuessesListProvider = StateProvider<List<int>>((ref) => []);
 
+// brown FFFAE0
+// red EF3340
+// yellow F1B420
+// black 1e1e1e
+
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }

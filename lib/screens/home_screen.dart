@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/screens/loading_screen.dart';
 import 'package:guess_o_rama/widgets/logo.dart';
-import 'package:guess_o_rama/widgets/side_drawer.dart';
+import 'package:guess_o_rama/widgets/side_drawer/side_drawer.dart';
+import 'package:guess_o_rama/widgets/tutorial_card/tutorial_card.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
