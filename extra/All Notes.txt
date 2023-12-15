@@ -59,7 +59,7 @@ e *       (abs(userGuess - numToGuess) / numToGuess)
 
 
 
-1-25         26-50      50      50-75            76-100
+1-25         45      50      50-75            76-100
 cold         hot                hot               cold
 
 

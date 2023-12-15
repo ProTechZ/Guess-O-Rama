@@ -5,17 +5,20 @@ import 'package:guess_o_rama/screens/home_screen.dart';
 import 'package:guess_o_rama/screens/playing_screen.dart';
 
 class ResultsScreen extends ConsumerWidget {
-  const ResultsScreen({super.key});
+  const ResultsScreen({super.key, required this.numToGuess});
+  final int numToGuess;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final numOfGuessesForRecentGame = Utils().getNumOfGuessesList(ref).last;
 
     return Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: false,),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         children: [
-          Text('Well Done'),
+          Text("That's right! My number was $numToGuess"),
           Text('You took $numOfGuessesForRecentGame tries to guess my number'),
           ElevatedButton(
             onPressed: () {

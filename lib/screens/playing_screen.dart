@@ -30,22 +30,48 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
     super.dispose();
   }
 
-  void calculateUserGuessCloseness() {
+  void calculateTemperature() {
     final userGuess = int.parse(_guessController.text);
-    final closeness = (userGuess - numToGuess).abs();
+    final guessCloseness = (userGuess - numToGuess).abs();
+    final recentGuessCloseness = (recentGuess! - numToGuess).abs();
 
-    if (userGuess > numToGuess - 25 && userGuess <= numToGuess + 25) {
-      print('hi');
-      temperature = 'HOOT';
+    if (recentGuess == null) {
+      // if it is the first guess
+      if (userGuess > numToGuess - 5 && userGuess <= numToGuess + 5) {
+        temperature = 'BOILING';
+      } else if (userGuess > numToGuess - 10 && userGuess <= numToGuess + 10) {
+        temperature = 'SMOKING';
+      } else if (userGuess > numToGuess - 20 && userGuess <= numToGuess + 20) {
+        temperature = 'VERY HOT';
+      } else if (userGuess > numToGuess - 30 && userGuess <= numToGuess + 30) {
+        temperature = 'HOT';
+      } else if (userGuess > numToGuess - 40 && userGuess <= numToGuess + 40) {
+        temperature = 'WARM';
+      } else if (userGuess > numToGuess - 50 && userGuess <= numToGuess + 50) {
+        temperature = 'MODERATE';
+      } else if (userGuess > numToGuess - 60 && userGuess <= numToGuess + 60) {
+        temperature = 'CHILLY';
+      } else if (userGuess > numToGuess - 70 && userGuess <= numToGuess + 70) {
+        temperature = 'COLD';
+      } else if (userGuess > numToGuess - 80 && userGuess <= numToGuess + 80) {
+        temperature = 'VERY COLD';
+      } else if (userGuess > numToGuess - 90 && userGuess <= numToGuess + 90) {
+        temperature = 'FROSTY';
+      } else if (userGuess > numToGuess - 99 && userGuess <= numToGuess + 99) {
+        temperature = 'FREEZING';
+      }
     } else {
-      print('bye');
-      temperature = 'COOLD';
+      if (guessCloseness < recentGuessCloseness) {
+        temperature = 'getting hotter';
+      } else {
+        temperature = 'getting colder';
+      }
     }
   }
 
   void userGuessesCorrectly() {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const ResultsScreen(),
+      builder: (context) => ResultsScreen(numToGuess: numToGuess),
     ));
     Utils().getNumOfGuessesList(ref).add(numOfGuesses);
   }
@@ -65,25 +91,23 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
         'My Title',
         "Please enter a value from 1-100!",
       );
-    }
-    //  else if (recentGuess != null && userGuess == recentGuess) {
-    //   Utils().showErrorDialog(
-    //     context,
-    //     'My Title',
-    //     "Same number",
-    //   );
-    // }
-    else {
+    } else if (recentGuess != null && userGuess == recentGuess) {
+      Utils().showErrorDialog(
+        context,
+        'My Title',
+        "Same number",
+      );
+    } else {
       setState(() {
         numOfGuesses++;
-        recentGuess = userGuess;
 
         if (userGuess == numToGuess) {
           userGuessesCorrectly();
         } else {
-          calculateUserGuessCloseness();
+          calculateTemperature();
         }
 
+        recentGuess = userGuess;
         _guessController.text = '';
       });
     }
