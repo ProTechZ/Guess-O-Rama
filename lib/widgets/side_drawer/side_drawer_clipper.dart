@@ -18,13 +18,13 @@ class SideDrawerClipper extends CustomClipper<Path> {
     path.lineTo(253, 40);
     path.lineTo(256, 30);
 
-    // top-right cut-off corner
-    path.lineTo(width - 5, 30);
-    path.lineTo(width, 32);
+    // top-right curved corner
+    path.lineTo(width - 10, 30);
+    path.quadraticBezierTo(width, 30, width, 40);
 
     // drawer header triangle
     path.lineTo(width, 50);
-    path.lineTo(width - 5, 55);
+    path.lineTo(width - 7, 63);
     path.lineTo(width, 60);
 
     // first list-tile triangle
@@ -56,8 +56,8 @@ class SideDrawerClipper extends CustomClipper<Path> {
 
     // bottom-right corner
     path.lineTo(width, height - 9);
-    path.lineTo(width- 8, height - 16);
-    path.lineTo(width- 7, height - 10);
+    path.lineTo(width - 8, height - 16);
+    path.lineTo(width - 7, height - 10);
     path.lineTo(width - 17, height - 14);
     path.lineTo(width - 10, height);
 

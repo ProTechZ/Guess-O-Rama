@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:guess_o_rama/functions/utility_functions.dart';
+
 import 'package:guess_o_rama/screens/results_screen.dart';
+import 'package:guess_o_rama/functions/utility_functions.dart';
+import 'package:guess_o_rama/widgets/custom_button/custom_button.dart';
 
 class PlayingScreen extends ConsumerStatefulWidget {
   const PlayingScreen({super.key});
@@ -20,8 +22,8 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
 
   @override
   void initState() {
-    numToGuess = Utils().createNumToGuess(ref);
     super.initState();
+    numToGuess = Utils().createNumToGuess(ref);
   }
 
   @override
@@ -33,7 +35,6 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
   void calculateTemperature() {
     final userGuess = int.parse(_guessController.text);
     final guessCloseness = (userGuess - numToGuess).abs();
-    final recentGuessCloseness = (recentGuess! - numToGuess).abs();
 
     if (recentGuess == null) {
       // if it is the first guess
@@ -61,6 +62,8 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
         temperature = 'FREEZING';
       }
     } else {
+      final recentGuessCloseness = (recentGuess! - numToGuess).abs();
+
       if (guessCloseness < recentGuessCloseness) {
         temperature = 'getting hotter';
       } else {
@@ -120,8 +123,8 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
       body: Column(
         children: [
           Text(temperature),
-          Text(numToGuess.toString()),
           TextField(
+            autofocus: true,
             controller: _guessController,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -130,8 +133,10 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
             ),
           ),
           Text('You have taken $numOfGuesses tries to guess my number'),
-          ElevatedButton(onPressed: submitGuess, child: const Text('Guess!')),
-          // TODO:  implement restart game and go home btn
+          CustomButton(
+            text: 'Guess!',
+            onPressed: submitGuess,
+          ), // TODO:  implement restart game and go home btn
         ],
       ),
     );

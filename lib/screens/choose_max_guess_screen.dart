@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:guess_o_rama/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/screens/home_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
 import 'package:guess_o_rama/widgets/side_drawer/side_drawer.dart';
+import 'package:guess_o_rama/widgets/custom_button/custom_button.dart';
 
 class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
   const ChooseNumberLimitScreen({super.key});
@@ -50,14 +52,13 @@ class _ChooseNumberLimitScreenState
               label: Text('Upper Limit'),
             ),
           ),
-          ElevatedButton(
+          CustomButton(
             onPressed: () => _submitNumLimit(ref),
-            child: const Text('OK'),
+            text: 'OK',
           ),
-          ElevatedButton(
-            onPressed: () =>
-                Navigator.of(context).pop(), // go back to home screen
-            child: const Text('Back'),
+          CustomButton(
+            onPressed: () => Navigator.of(context).pop(),
+            text: 'Back',
           ),
         ],
       ),

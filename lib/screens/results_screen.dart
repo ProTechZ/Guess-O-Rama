@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:guess_o_rama/functions/utility_functions.dart';
+
 import 'package:guess_o_rama/screens/home_screen.dart';
 import 'package:guess_o_rama/screens/playing_screen.dart';
+import 'package:guess_o_rama/functions/utility_functions.dart';
+import 'package:guess_o_rama/widgets/custom_button/custom_button.dart';
 
 class ResultsScreen extends ConsumerWidget {
   const ResultsScreen({super.key, required this.numToGuess});
@@ -20,21 +22,19 @@ class ResultsScreen extends ConsumerWidget {
         children: [
           Text("That's right! My number was $numToGuess"),
           Text('You took $numOfGuessesForRecentGame tries to guess my number'),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ));
-            },
-            child: const Text('Home'),
+          CustomButton(
+            onPressed: () => Utils().moveToNewScreen(
+              context,
+              const HomeScreen(),
+            ),
+            text: 'Home',
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const PlayingScreen(),
-              ));
-            },
-            child: const Text('Play Again'),
+          CustomButton(
+            onPressed: () => Utils().moveToNewScreen(
+              context,
+              const PlayingScreen(),
+            ),
+            text: 'Play Again',
           ),
         ],
       ),

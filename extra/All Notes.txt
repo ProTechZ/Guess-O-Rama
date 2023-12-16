@@ -1,3 +1,9 @@
+needa implement;
+highscore
+tutorial on startup
+tutorial in general
+
+
 CCE = candy crush effect = make that particular object feel more gamey by applying all relevant candy crush notes
 CGN = computer generated number = the number that the computer will generate which the user has to guess
 
