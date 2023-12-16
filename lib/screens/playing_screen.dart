@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart'; // package used to create temperature scale
 
 import 'package:guess_o_rama/screens/results_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
@@ -9,6 +10,7 @@ import 'package:guess_o_rama/widgets/custom_button.dart';
 // TODO make conservational
 // TODO highscore
 // TODO complete design
+
 class PlayingScreen extends ConsumerStatefulWidget {
   const PlayingScreen({super.key});
 
@@ -19,6 +21,7 @@ class PlayingScreen extends ConsumerStatefulWidget {
 class _PlayingScreenState extends ConsumerState<PlayingScreen> {
   final _guessController = TextEditingController();
   String temperature = '';
+  double temperatureMarkerPosition = 50;
   late int numToGuess;
   List<int> listOfGuesses = [];
   int numOfGuesses = 0;
@@ -62,6 +65,19 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
     }
   }
 
+  // calculates new temperatureScale value to update temperature scale marker position.
+  void calculateTemperatureScale() {
+    // get user guess
+    final userGuess = int.parse(_guessController.text);
+
+    // calculate difference between
+    final difference = (numToGuess - userGuess).abs();
+
+    // if difference is low then temperatureScale is low -> red
+    // if difference is high then temperatureScale is high -> blue
+    temperatureMarkerPosition = difference / Utils().getMaxGuess(ref) * 100;
+  }
+
   void userGuessesCorrectly() {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => ResultsScreen(numToGuess: numToGuess),
@@ -98,6 +114,7 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
           userGuessesCorrectly();
         } else {
           calculateTemperature();
+          calculateTemperatureScale();
         }
 
         prevGuess = userGuess;
@@ -106,12 +123,58 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
     }
   }
 
+  // builds temperature scale widget
+  Widget buildTemperatureScale(BuildContext context) {
+    return SfLinearGauge(
+      showTicks: false,
+      showLabels: false,
+      showAxisTrack: false,
+      ranges: [
+        // this controls the temperature scale itself
+        LinearGaugeRange(
+          // startWidth and endWith control size of the color bar, increase to make taller
+          startWidth: 10,
+          endWidth: 10,
+          // do not change startValue and endValue
+          startValue: 0,
+          endValue: 100,
+          shaderCallback: (bounds) => const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              // change colours if you want
+              colors: [
+                Color.fromARGB(255, 255, 0, 0),
+                Color.fromARGB(255, 255, 191, 0),
+                Color.fromARGB(255, 0, 255, 128),
+                Color.fromARGB(255, 0, 94, 255)
+              ]).createShader(bounds),
+        ),
+      ],
+      markerPointers: [
+        // this controls the marker which is rendered on the scale
+        LinearShapePointer(
+          // temperatureMarkerPosition controls the position of marker
+          // should be value between 0 and 100
+          value: temperatureMarkerPosition,
+          shapeType: LinearShapePointerType.circle,
+          elevation: 10,
+          color: Colors.white,
+          borderColor: Colors.black,
+          borderWidth: 2,
+          position: LinearElementPosition.outside,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Column(
         children: [
+          // add in the temperature scale widget
+          buildTemperatureScale(context),
           Text(temperature),
           TextField(
             autofocus: true,
