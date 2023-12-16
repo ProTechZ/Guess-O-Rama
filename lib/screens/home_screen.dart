@@ -6,8 +6,7 @@ import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/widgets/custom_appbar/custom_appbar.dart';
 import 'package:guess_o_rama/widgets/logo.dart';
 import 'package:guess_o_rama/screens/loading_screen.dart';
-import 'package:guess_o_rama/widgets/side_drawer/side_drawer.dart';
-import 'package:guess_o_rama/widgets/custom_button/custom_button.dart';
+import 'package:guess_o_rama/widgets/custom_button.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -18,13 +17,14 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: CustomAppBar(),
-      drawer: const SideDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Logo(width: 300, height: 150),
-            SizedBox(height: 100,),
+            SizedBox(
+              height: 100,
+            ),
             CustomButton(
               onPressed: () => Utils().moveToNewScreen(
                 context,

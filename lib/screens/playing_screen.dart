@@ -4,8 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:guess_o_rama/screens/results_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
-import 'package:guess_o_rama/widgets/custom_button/custom_button.dart';
+import 'package:guess_o_rama/widgets/custom_button.dart';
 
+// TODO make conservational
+// TODO highscore
+// TODO complete design
 class PlayingScreen extends ConsumerStatefulWidget {
   const PlayingScreen({super.key});
 
@@ -17,8 +20,9 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
   final _guessController = TextEditingController();
   String temperature = '';
   late int numToGuess;
+  List<int> listOfGuesses = [];
   int numOfGuesses = 0;
-  int? recentGuess;
+  int? prevGuess;
 
   @override
   void initState() {
@@ -34,41 +38,27 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
 
   void calculateTemperature() {
     final userGuess = int.parse(_guessController.text);
-    final guessCloseness = (userGuess - numToGuess).abs();
 
-    if (recentGuess == null) {
-      // if it is the first guess
-      if (userGuess > numToGuess - 5 && userGuess <= numToGuess + 5) {
-        temperature = 'BOILING';
-      } else if (userGuess > numToGuess - 10 && userGuess <= numToGuess + 10) {
-        temperature = 'SMOKING';
-      } else if (userGuess > numToGuess - 20 && userGuess <= numToGuess + 20) {
-        temperature = 'VERY HOT';
-      } else if (userGuess > numToGuess - 30 && userGuess <= numToGuess + 30) {
-        temperature = 'HOT';
-      } else if (userGuess > numToGuess - 40 && userGuess <= numToGuess + 40) {
-        temperature = 'WARM';
-      } else if (userGuess > numToGuess - 50 && userGuess <= numToGuess + 50) {
-        temperature = 'MODERATE';
-      } else if (userGuess > numToGuess - 60 && userGuess <= numToGuess + 60) {
-        temperature = 'CHILLY';
-      } else if (userGuess > numToGuess - 70 && userGuess <= numToGuess + 70) {
-        temperature = 'COLD';
-      } else if (userGuess > numToGuess - 80 && userGuess <= numToGuess + 80) {
-        temperature = 'VERY COLD';
-      } else if (userGuess > numToGuess - 90 && userGuess <= numToGuess + 90) {
-        temperature = 'FROSTY';
-      } else if (userGuess > numToGuess - 99 && userGuess <= numToGuess + 99) {
-        temperature = 'FREEZING';
-      }
-    } else {
-      final recentGuessCloseness = (recentGuess! - numToGuess).abs();
-
-      if (guessCloseness < recentGuessCloseness) {
-        temperature = 'getting hotter';
-      } else {
-        temperature = 'getting colder';
-      }
+    if (userGuess > numToGuess - 5 && userGuess <= numToGuess + 5) {
+      temperature = ' SUPER INSANELY ULTRA EXTRA MAX HOT';
+    } else if (userGuess > numToGuess - 10 && userGuess <= numToGuess + 10) {
+      temperature = ' SUPER DUPER HOT';
+    } else if (userGuess > numToGuess - 20 && userGuess <= numToGuess + 20) {
+      temperature = ' VERY VERY HOT';
+    } else if (userGuess > numToGuess - 30 && userGuess <= numToGuess + 30) {
+      temperature = ' REALLY HOT ';
+    } else if (userGuess > numToGuess - 40 && userGuess <= numToGuess + 40) {
+      temperature = 'HOT';
+    } else if (userGuess > numToGuess - 50 && userGuess <= numToGuess + 50) {
+      temperature = ' COLD';
+    } else if (userGuess > numToGuess - 60 && userGuess <= numToGuess + 60) {
+      temperature = ' REALLY COLD';
+    } else if (userGuess > numToGuess - 70 && userGuess <= numToGuess + 70) {
+      temperature = ' VERY VERY COLD';
+    } else if (userGuess > numToGuess - 80 && userGuess <= numToGuess + 80) {
+      temperature = ' SUPER DUPER COLD';
+    } else if (userGuess > numToGuess - 99 && userGuess <= numToGuess + 99) {
+      temperature = ' SUPER INSANELY ULTRA EXTRA MAX COLD';
     }
   }
 
@@ -94,7 +84,7 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
         'My Title',
         "Please enter a value from 1-100!",
       );
-    } else if (recentGuess != null && userGuess == recentGuess) {
+    } else if (prevGuess != null && userGuess == prevGuess) {
       Utils().showErrorDialog(
         context,
         'My Title',
@@ -110,7 +100,7 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
           calculateTemperature();
         }
 
-        recentGuess = userGuess;
+        prevGuess = userGuess;
         _guessController.text = '';
       });
     }

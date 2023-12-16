@@ -1,26 +1,26 @@
-needa implement;
-highscore
-tutorial on startup
-tutorial in general
-
-
-CCE = candy crush effect = make that particular object feel more gamey by applying all relevant candy crush notes
-CGN = computer generated number = the number that the computer will generate which the user has to guess
-
-make the thing look more gamey
-background like Candy Crush
-audio sounds for buttons, animations (rive),
-less of a utility-banking app and more of a game app
-hot/cold - make the "hot/cold" like shake and vibrate when it comes on the screen
-like BIGGER VIBRATION, LESS BIG VIBRATION, SMALL VIBRATION, STILL
+background home screen
+audio sounds for buttons, animations
+show all previous guesses with chip widget
+each chip widget's background color should be the color it was on the temperature scale
+have like a gradient temperatur scale and like a cirlce (it looks like a slider) and everytime they guess the circle moves to show them the temp
+implement tutorial on startup and tutorial button
+show the tutorial and then show close button and tell them that if they every wanna run the tutorial again they can find it in menu  
+maybe implemtn either dropdown or sidedrawer or icon tab at bottom
+make choosing your number limit a slider
+hot/cold - make the "hot/cold" like shake and vibrate when it comes on the screen - small vibration js one small vibration 2 secs
 maybe make the colours colder and hotter to go with the hot/cold
 maybe make icicles form on top and flames come up from bottom respectively and like the blue blur come in from sides and the red blur too 
-maybe a potential shop where u can buy stuff with ur stars like -1 guess (to increase ur stars) 
-might have lives (probably not)
-profiles?
+2 versions of trials - limitless where u get infinite tires and limited where you get a set amount of tries (5, 10, 20)
+2 versions of time - limitless where u get timed and limited where you get a set amount of time (1min - hard, 2min - medium, 3min - easy,)
 
-so like homescreen will have the CCE and play button
-when u get into play
+candy crush effect on everything - this might mean like everything scratchy and broken as my theme like for sidedrawer and button
+background like Candy Crush
+less of a utility-banking app and more of a game app
+profiles?
+acheivements like got in 1 guess or 5 guess (think of more creative acheivements) and u can see how many times u got those acheivements
+home and achievements in icon tab at bottom
+gonna be like a "coolmathgames.com (not really but kind of)" or "the wood puzzle game on mum's phone" kinda thing
+in the sense its not a game like brawl stars or clash of clans but it is a simple fun game like wood puzzle
 
 CANDY CRUSH NOTES
 Interesting visual Title
@@ -28,26 +28,9 @@ Rope hanging up the title/logo - makes a good effect and adds to the cardboard f
 title in home screen = logo of the game
 title/logo gives a feel (cardboardy)
 the title can be seen Visually above the background
-appbar shape is different
-
 The background is behind everything and that can be seen visually by the background being cut off by the title (like the clouds) or the buttons (the mountain)
 character is like a mascot and a noticeable/rememberable thing of the game
-
 button is visually pleasing by having that nice shadow and a fancy font
 not saying that you need these things to make a nice button but they add to create a nice effect
-
 all colours match up with the candy feel
 
-
-         | only when they install the app     | if i cant do that  |
-_________|____________________________________|____________________|
-         | show the tutorial and then show    | might have to make |
-         | close button and tell them that    | tutorial a main/   |  possible solution to the "if i cant do it":
-tutorial | if they every wanna run the        | prominent button   |  see if provider state stuff can handle and remember the state of "i have seen the tutorial" and their limit
-	       | tutorial again they can find it    | like in raj's num  |  if not see if firebase can do smthing like that and if i can use firebase
-         | in menu                            | pred               |
-_________|____________________________________|____________________|
-
-gonna be like a "coolmathgames.com (not really but kind of)" or "the wood puzzle game on mum's phone" kinda thing
-in the sense its not a game like brawl stars or clash of clans but it is a simple fun game like wood puzzle
-two versions based on how u r awarded stars - |time| and |number of guesses (potential shorter term for this = trials?)|

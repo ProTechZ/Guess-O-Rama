@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:guess_o_rama/screens/playing_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
-import 'package:guess_o_rama/widgets/custom_button/custom_button.dart';
+import 'package:guess_o_rama/widgets/custom_button.dart';
 
 class LoadingScreen extends ConsumerWidget {
   const LoadingScreen({super.key});

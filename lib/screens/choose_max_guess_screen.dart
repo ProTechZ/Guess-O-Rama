@@ -4,8 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/screens/home_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
-import 'package:guess_o_rama/widgets/side_drawer/side_drawer.dart';
-import 'package:guess_o_rama/widgets/custom_button/custom_button.dart';
+import 'package:guess_o_rama/widgets/custom_button.dart';
 
 class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
   const ChooseNumberLimitScreen({super.key});
@@ -22,7 +21,6 @@ class _ChooseNumberLimitScreenState
   void _submitNumLimit(WidgetRef ref) {
     var maxGuess = int.tryParse(_maxGuessController.text);
 
-    // TODO: make choosing the upper lim a slider
     if (maxGuess == null) {
       Utils().showErrorDialog(
         context,
@@ -42,7 +40,6 @@ class _ChooseNumberLimitScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer: const SideDrawer(),
       body: Column(
         children: [
           TextField(

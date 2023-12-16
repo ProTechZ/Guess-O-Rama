@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:guess_o_rama/widgets/custom_button/custom_button_clipper.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -17,15 +16,12 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: CustomButtonClipper(),
-      child: SizedBox(
-        height: height,
-        width: width,
-        child: ElevatedButton(
-          onPressed: onPressed,
-          child: Text(text),
-        ),
+    return SizedBox(
+      height: height,
+      width: width,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: Text(text),
       ),
     );
   }

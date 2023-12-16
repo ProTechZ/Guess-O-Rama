@@ -3,21 +3,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:guess_o_rama/screens/home_screen.dart';
 
-// TODO implement tutorial
+// TODO change font
+// TODO make bigger
+// TODO fix button
+
 final maxGuessProvider = StateProvider((ref) => 100);
 final numOfGuessesListProvider = StateProvider<List<int>>((ref) => []);
 
 // brown FFFAE0
 // red EF3340
-// yellow F1B420
-// black 1e1e1e
+// yellow rgb(247,237,20)
+// urple rgb(142,46,243)
+
 var kColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(255, 96, 59, 181),
+  seedColor: const Color.fromARGB(255, 0, 255, 62),
+
 );
 
 var kDarkColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
-  seedColor: const Color.fromARGB(255, 5, 99, 125),
+  seedColor: const Color.fromARGB(255, 0, 255, 62),
 );
 
 void main() {
