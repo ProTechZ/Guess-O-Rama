@@ -20,22 +20,4 @@ class Utils {
     final maxGuess = ref.read(maxGuessProvider.notifier).state;
     return Random().nextInt(maxGuess);
   }
-
-  void showErrorDialog(BuildContext context, String title, String message) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ],
-      ),
-    );
-  }
 }
