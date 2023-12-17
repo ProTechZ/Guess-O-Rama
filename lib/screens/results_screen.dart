@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:guess_o_rama/screens/playing_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
 import 'package:guess_o_rama/widgets/default_screen.dart';
 
-class ResultsScreen extends ConsumerWidget {
+class ResultsScreen extends StatelessWidget {
   const ResultsScreen({super.key, required this.numToGuess});
   final int numToGuess;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final numOfGuessesForRecentGame = Utils().getNumOfGuessesList(ref).last;
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
     return DefaultScreen(
@@ -24,11 +21,19 @@ class ResultsScreen extends ConsumerWidget {
             style: textTheme.bodyLarge,
           ),
           const SizedBox(height: 10),
-          Text(
-            numOfGuessesForRecentGame == 1
-                ? 'You took $numOfGuessesForRecentGame attempt to guess my number.'
-                : 'You took $numOfGuessesForRecentGame attempts to guess my number.',
-            textAlign: TextAlign.center,
+          FutureBuilder(
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Text(
+                  snapshot.data!.last == 1
+                      ? 'You took $snapshot.data attempt to guess my number.'
+                      : 'You took $snapshot.data attempts to guess my number.',
+                  textAlign: TextAlign.center,
+                );
+              }
+              return const Text('');
+            },
+            future: Utils().getNumOfGuessesList(),
           ),
           const SizedBox(height: 70),
           ElevatedButton.icon(

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:guess_o_rama/screens/playing_screen.dart';
 import 'package:guess_o_rama/widgets/default_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
 
-class LoadingScreen extends ConsumerWidget {
+class LoadingScreen extends StatelessWidget {
   const LoadingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final maxGuess = Utils().getMaxGuess(ref);
+  Widget build(BuildContext context) {
     final bodyMediumTheme = Theme.of(context).textTheme.bodyMedium!;
     final bodyLargeTheme = Theme.of(context).textTheme.bodyLarge!;
 
@@ -30,10 +27,18 @@ class LoadingScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(
-                    'The computer will generate a number from 1-$maxGuess.',
-                    textAlign: TextAlign.left,
-                    style: bodyMediumTheme,
+                  FutureBuilder(
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Text(
+                          'The computer will generate a number from 1-${snapshot.data}.',
+                          textAlign: TextAlign.left,
+                          style: bodyMediumTheme,
+                        );
+                      }
+                      return const Text('');
+                    },
+                    future: Utils().getMaxGuess(),
                   ),
                   const Text(
                     'You try to guess what this number.',

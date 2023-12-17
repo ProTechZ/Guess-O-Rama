@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:guess_o_rama/functions/utility_functions.dart';
-
-import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/screens/home_screen.dart';
 import 'package:guess_o_rama/widgets/default_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:guess_o_rama/functions/utility_functions.dart';
 
-class ChooseNumberLimitScreen extends ConsumerStatefulWidget {
+class ChooseNumberLimitScreen extends StatefulWidget {
   const ChooseNumberLimitScreen({super.key});
 
   @override
-  ConsumerState<ChooseNumberLimitScreen> createState() =>
+  State<ChooseNumberLimitScreen> createState() =>
       _ChooseNumberLimitScreenState();
 }
 
-class _ChooseNumberLimitScreenState
-    extends ConsumerState<ChooseNumberLimitScreen> {
+class _ChooseNumberLimitScreenState extends State<ChooseNumberLimitScreen> {
   final _maxGuessController = TextEditingController();
 
-  void _submitNumLimit(WidgetRef ref) {
+  void saveMaxGuess(int maxGuess) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('maxGuess', maxGuess);
+  }
+
+  void _submitNumLimit() {
     var maxGuess = int.tryParse(_maxGuessController.text);
 
     if (maxGuess == null) {
@@ -30,13 +34,8 @@ class _ChooseNumberLimitScreenState
         ),
       );
     } else {
-      FocusManager.instance.primaryFocus?.unfocus();
-
-      ref.read(maxGuessProvider.notifier).state = maxGuess;
-
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
-      ));
+      saveMaxGuess(maxGuess);
+      Utils().moveToNewScreen(context, const HomeScreen());
     }
   }
 
@@ -51,11 +50,19 @@ class _ChooseNumberLimitScreenState
             'If you want to change the number you are guessing upto, enter the number and press OK.',
             style: textTheme.bodyMedium,
           ),
-          const SizedBox(height: 20),
-          Text(
-            'Your current upper limit is ${Utils().getMaxGuess(ref)}',
-            style: textTheme.bodyMedium,
+          FutureBuilder(
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Text(
+                  'Your current upper limit is ${snapshot.data}',
+                  style: textTheme.bodyMedium,
+                );
+              }
+              return const Text('');
+            },
+            future: Utils().getMaxGuess(),
           ),
+          const SizedBox(height: 20),
           const SizedBox(height: 30),
           TextField(
             style: textTheme.labelMedium,
@@ -70,7 +77,7 @@ class _ChooseNumberLimitScreenState
           ),
           const SizedBox(height: 50),
           ElevatedButton.icon(
-            onPressed: () => _submitNumLimit(ref),
+            onPressed: _submitNumLimit,
             icon: const Icon(Icons.check),
             label: Container(
               padding: const EdgeInsets.symmetric(

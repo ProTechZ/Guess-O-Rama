@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:guess_o_rama/main.dart';
-import 'package:guess_o_rama/widgets/default_screen.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-
+import 'package:guess_o_rama/widgets/default_screen.dart';
 import 'package:guess_o_rama/screens/results_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
 
-class PlayingScreen extends ConsumerStatefulWidget {
+class PlayingScreen extends StatefulWidget {
   const PlayingScreen({super.key});
 
   @override
-  ConsumerState<PlayingScreen> createState() => _PlayingScreenState();
+  State<PlayingScreen> createState() => _PlayingScreenState();
 }
 
-class _PlayingScreenState extends ConsumerState<PlayingScreen> {
+class _PlayingScreenState extends State<PlayingScreen> {
   final _guessController = TextEditingController();
   double temperatureMarkerPosition = 50;
-  late int numToGuess;
+  Future<int> numToGuessFuture = Utils().createNumToGuess();
   int numOfGuesses = 0;
   int? prevGuess;
-
-  @override
-  void initState() {
-    super.initState();
-    numToGuess = Utils().createNumToGuess(ref);
-  }
 
   @override
   void dispose() {
@@ -34,21 +26,32 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
     super.dispose();
   }
 
-  void userGuessesCorrectly() {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => ResultsScreen(numToGuess: numToGuess),
-    ));
-    Utils().getNumOfGuessesList(ref).add(numOfGuesses);
+  void userGuessesCorrectly() async {
+    Utils().moveToNewScreen(
+        context, ResultsScreen(numToGuess: await numToGuessFuture));
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('numOfGuessList', numOfGuesses);
   }
 
-  void submitGuess() {
+  void createSnackBar(String snackBarMsg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        padding: const EdgeInsets.all(10),
+        content: Text(snackBarMsg),
+      ),
+    );
+  }
+
+  void submitGuess() async {
     final userGuess = int.tryParse(_guessController.text);
+    final numToGuess = await numToGuessFuture;
     var snackBarMsg = '';
 
     if (userGuess == null) {
       snackBarMsg = 'Maybe you should try guessing a number first?';
-    } else if (userGuess < 1 || userGuess > Utils().getMaxGuess(ref)) {
-      snackBarMsg = 'Please enter a value from 1-${Utils().getMaxGuess(ref)}.';
+    } else if (userGuess < 1 || userGuess > await Utils().getMaxGuess()) {
+      snackBarMsg = 'Please enter a value from 1-${Utils().getMaxGuess()}.';
     } else if (prevGuess != null && userGuess == prevGuess) {
       snackBarMsg = 'You guessed that number last time!';
     } else {
@@ -67,21 +70,15 @@ class _PlayingScreenState extends ConsumerState<PlayingScreen> {
     }
 
     if (snackBarMsg != '') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: const Duration(seconds: 3),
-          padding: const EdgeInsets.all(10),
-          content: Text(snackBarMsg),
-        ),
-      );
+      createSnackBar(snackBarMsg);
     }
   }
 
-  void calculateTemperatureScale() {
+  void calculateTemperatureScale() async {
     final userGuess = int.parse(_guessController.text);
-    final difference = (numToGuess - userGuess).abs();
+    final difference = (await numToGuessFuture - userGuess).abs();
 
-    temperatureMarkerPosition = difference / Utils().getMaxGuess(ref) * 100;
+    temperatureMarkerPosition = difference / await Utils().getMaxGuess() * 100;
   }
 
   Widget buildTemperatureScale(BuildContext context) {

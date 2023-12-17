@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/widgets/default_screen.dart';
 import 'package:guess_o_rama/screens/loading_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
 import 'package:guess_o_rama/screens/choose_max_guess_screen.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return DefaultScreen(
       useAppbar: false,
       body: Center(
