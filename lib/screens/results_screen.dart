@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:guess_o_rama/screens/playing_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
+import 'package:guess_o_rama/widgets/default_button.dart';
 import 'package:guess_o_rama/widgets/default_screen.dart';
 
 class ResultsScreen extends StatelessWidget {
-  const ResultsScreen({super.key, required this.numToGuess});
+  const ResultsScreen({
+    super.key,
+    required this.numToGuess,
+    required this.numOfGuesses,
+  });
   final int numToGuess;
+  final int numOfGuesses;
 
   @override
   Widget build(BuildContext context) {
@@ -21,37 +27,21 @@ class ResultsScreen extends StatelessWidget {
             style: textTheme.bodyLarge,
           ),
           const SizedBox(height: 10),
-          FutureBuilder(
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Text(
-                  snapshot.data!.last == 1
-                      ? 'You took $snapshot.data attempt to guess my number.'
-                      : 'You took $snapshot.data attempts to guess my number.',
-                  textAlign: TextAlign.center,
-                );
-              }
-              return const Text('');
-            },
-            future: Utils().getNumOfGuessesList(),
+          Text(
+            numToGuess == 1
+                ? 'You took $numOfGuesses attempt to guess my number.'
+                : 'You took $numOfGuesses attempts to guess my number.',
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 70),
-          ElevatedButton.icon(
+          DefaultButton(
             onPressed: () => Utils().moveToNewScreen(
               context,
               const PlayingScreen(),
             ),
-            icon: const Icon(Icons.fast_forward),
-            label: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 15,
-                horizontal: 20,
-              ),
-              child: Text(
-                'Play Again',
-                style: textTheme.displayMedium,
-              ),
-            ),
+            text: 'Play Again',
+            textStyle: textTheme.displayMedium!,
+            icon: Icons.fast_forward,
           ),
         ],
       ),

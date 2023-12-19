@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
             fontWeight: FontWeight.w300,
             letterSpacing: 3,
-            fontSize: 15,
+            fontSize: 10,
           ),
           // used for the number when you enter into the field form in the playing, choose-max-guess screen
           labelMedium: GoogleFonts.luckiestGuy(

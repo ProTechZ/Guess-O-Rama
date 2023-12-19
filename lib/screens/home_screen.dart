@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess_o_rama/main.dart';
+import 'package:guess_o_rama/widgets/default_button.dart';
 import 'package:guess_o_rama/widgets/default_screen.dart';
 import 'package:guess_o_rama/screens/loading_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
@@ -10,6 +11,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return DefaultScreen(
       useAppbar: false,
       body: Center(
@@ -23,52 +26,28 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 50),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ElevatedButton.icon(
+                DefaultButton(
                   onPressed: () => Utils().moveToNewScreen(
                     context,
                     const LoadingScreen(),
                   ),
-                  icon: const Icon(Icons.play_arrow, size: 40),
-                  label: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                    ),
-                    child: Text(
-                      'PLAY',
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
-                  ),
+                  text: 'PLAY',
+                  textStyle: textTheme.displayLarge!,
+                  icon: Icons.play_arrow,
+                  iconSize: 40,
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  style: ElevatedButtonTheme.of(context).style!.copyWith(
-                        backgroundColor: MaterialStatePropertyAll(
-                          kColorScheme.onPrimary,
-                        ),
-                      ),
+                DefaultButton(
+                  secondary: true,
                   onPressed: () => Utils().moveToNewScreen(
                     context,
                     const ChooseNumberLimitScreen(),
                   ),
-                  icon: Icon(
-                    Icons.edit,
-                    size: 40,
-                    color: kColorScheme.primary,
-                  ),
-                  label: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                    ),
-                    child: Text(
-                      'EDIT',
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayLarge!
-                          .copyWith(color: kColorScheme.primary),
-                    ),
-                  ),
+                  text: 'EDIT',
+                  textStyle: textTheme.displayLarge!,
+                  icon: Icons.edit,
+                  iconSize: 40,
                 ),
               ],
             )

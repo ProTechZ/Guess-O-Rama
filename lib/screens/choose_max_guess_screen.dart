@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess_o_rama/screens/home_screen.dart';
+import 'package:guess_o_rama/widgets/default_button.dart';
 import 'package:guess_o_rama/widgets/default_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
@@ -49,21 +50,27 @@ class _ChooseNumberLimitScreenState extends State<ChooseNumberLimitScreen> {
           Text(
             'If you want to change the number you are guessing upto, enter the number and press OK.',
             style: textTheme.bodyMedium,
+            textAlign: TextAlign.center,
           ),
-          FutureBuilder(
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Text(
-                  'Your current upper limit is ${snapshot.data}',
-                  style: textTheme.bodyMedium,
-                );
-              }
-              return const Text('');
-            },
-            future: Utils().getMaxGuess(),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: FutureBuilder(
+              future: Utils().getMaxGuess(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return const CircularProgressIndicator();
+                  case ConnectionState.active:
+                  case ConnectionState.done:
+                    return Text(
+                      'Your current upper limit is ${snapshot.data}',
+                      style: textTheme.bodyMedium,
+                    );
+                }
+              },
+            ),
           ),
-          const SizedBox(height: 20),
-          const SizedBox(height: 30),
           TextField(
             style: textTheme.labelMedium,
             controller: _maxGuessController,
@@ -76,16 +83,11 @@ class _ChooseNumberLimitScreenState extends State<ChooseNumberLimitScreen> {
             ),
           ),
           const SizedBox(height: 50),
-          ElevatedButton.icon(
+          DefaultButton(
             onPressed: _submitNumLimit,
-            icon: const Icon(Icons.check),
-            label: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 20,
-              ),
-              child: Text('OK', style: textTheme.displayMedium),
-            ),
+            text: 'OK',
+            textStyle: textTheme.displayMedium!,
+            icon: Icons.check,
           ),
         ],
       ),

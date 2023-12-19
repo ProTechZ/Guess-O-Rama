@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -14,11 +16,23 @@ class PlayingScreen extends StatefulWidget {
 }
 
 class _PlayingScreenState extends State<PlayingScreen> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<int> _numToGuess;
+
   final _guessController = TextEditingController();
   double temperatureMarkerPosition = 50;
-  Future<int> numToGuessFuture = Utils().createNumToGuess();
+
   int numOfGuesses = 0;
   int? prevGuess;
+
+  @override
+  void initState() {
+    super.initState();
+    _numToGuess = _prefs.then((SharedPreferences prefs) {
+      final maxGuess = prefs.getInt('maxGuess') ?? 100;
+      return Random().nextInt(maxGuess);
+    });
+  }
 
   @override
   void dispose() {
@@ -26,11 +40,14 @@ class _PlayingScreenState extends State<PlayingScreen> {
     super.dispose();
   }
 
-  void userGuessesCorrectly() async {
+  void moveToResultsScreen() async {
     Utils().moveToNewScreen(
-        context, ResultsScreen(numToGuess: await numToGuessFuture));
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('numOfGuessList', numOfGuesses);
+      context,
+      ResultsScreen(
+        numToGuess: await _numToGuess,
+        numOfGuesses: numOfGuesses,
+      ),
+    );
   }
 
   void createSnackBar(String snackBarMsg) {
@@ -44,28 +61,29 @@ class _PlayingScreenState extends State<PlayingScreen> {
   }
 
   void submitGuess() async {
-    final userGuess = int.tryParse(_guessController.text);
-    final numToGuess = await numToGuessFuture;
+    final currGuess = int.tryParse(_guessController.text);
+    final numToGuess = await _numToGuess;
     var snackBarMsg = '';
 
-    if (userGuess == null) {
+    if (currGuess == null) {
       snackBarMsg = 'Maybe you should try guessing a number first?';
-    } else if (userGuess < 1 || userGuess > await Utils().getMaxGuess()) {
-      snackBarMsg = 'Please enter a value from 1-${Utils().getMaxGuess()}.';
-    } else if (prevGuess != null && userGuess == prevGuess) {
+    } else if (currGuess < 1 || currGuess > await Utils().getMaxGuess()) {
+      snackBarMsg =
+          'Please enter a value from 1-${await Utils().getMaxGuess()}.';
+    } else if (prevGuess != null && currGuess == prevGuess) {
       snackBarMsg = 'You guessed that number last time!';
     } else {
       setState(() {
         numOfGuesses++;
 
-        if (userGuess == numToGuess) {
-          userGuessesCorrectly();
+        if (currGuess == numToGuess) {
+          moveToResultsScreen();
           FocusManager.instance.primaryFocus?.unfocus();
         } else {
           calculateTemperatureScale();
         }
 
-        prevGuess = userGuess;
+        prevGuess = currGuess;
       });
     }
 
@@ -75,8 +93,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
   }
 
   void calculateTemperatureScale() async {
-    final userGuess = int.parse(_guessController.text);
-    final difference = (await numToGuessFuture - userGuess).abs();
+    final currGuess = int.parse(_guessController.text);
+    final difference = (await _numToGuess - currGuess).abs();
 
     temperatureMarkerPosition = difference / await Utils().getMaxGuess() * 100;
   }
@@ -127,26 +145,52 @@ class _PlayingScreenState extends State<PlayingScreen> {
       useRestart: true,
       body: Column(
         children: [
-          buildTemperatureScale(context),
-          SizedBox(height: 5),
+          FutureBuilder(
+            future: Utils().getMaxGuess(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return const CircularProgressIndicator();
+                case ConnectionState.active:
+                case ConnectionState.done:
+                  return Text(
+                    'Guess my number from 1-${snapshot.data}!',
+                    style: textTheme.bodyLarge!.copyWith(fontSize: 20),
+                    textAlign: TextAlign.center,
+                  );
+              }
+            },
+          ),
+          Container(
+            margin: const EdgeInsets.only(
+              top: 30,
+              bottom: 5,
+            ),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(colors: [
+                Color.fromARGB(255, 255, 0, 0),
+                Color.fromARGB(255, 255, 149, 0),
+                Color.fromARGB(255, 0, 72, 255),
+                Color.fromARGB(255, 255, 255, 255),
+                Color.fromARGB(255, 255, 255, 255)
+              ]),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: buildTemperatureScale(context),
+          ),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [Text('HOT'), Text('COLD')],
           ),
           Container(
-            padding: const EdgeInsets.only(top: 20, bottom: 40),
+            margin: const EdgeInsets.only(top: 20, bottom: 40),
             child: TextField(
+              textAlignVertical: TextAlignVertical.bottom,
               style: textTheme.labelMedium,
-              autofocus: true,
               controller: _guessController,
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: InputDecoration(
-                label: Text(
-                  'Guess my number!',
-                  style: textTheme.labelSmall,
-                ),
-              ),
             ),
           ),
           ElevatedButton(

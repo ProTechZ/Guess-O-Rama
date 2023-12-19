@@ -3,20 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   void moveToNewScreen(BuildContext context, Widget screen) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => screen,
     ));
   }
 
-  Future<List<int>> getNumOfGuessesList() async {
-    final prefs = await SharedPreferences.getInstance();
-    final numOfGuess = prefs.get('numOfGuessList') ?? [];
-    return numOfGuess as List<int>;
-  }
-
   Future<int> getMaxGuess() async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
     final maxGuess = prefs.getInt('maxGuess') ?? 100;
 
     return maxGuess;
