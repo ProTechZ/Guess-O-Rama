@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:guess_o_rama/screens/playing_screen.dart';
-import 'package:guess_o_rama/widgets/default_button.dart';
 import 'package:guess_o_rama/widgets/default_screen.dart';
 import 'package:guess_o_rama/functions/utility_functions.dart';
 
@@ -9,10 +8,11 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final bodyMediumTheme = Theme.of(context).textTheme.bodyMedium!;
+    final bodyLargeTheme = Theme.of(context).textTheme.bodyLarge!;
 
     return DefaultScreen(
-      screen: Container(
+      body: Container(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -20,7 +20,7 @@ class LoadingScreen extends StatelessWidget {
             Text(
               'This is how you play.',
               textAlign: TextAlign.center,
-              style: textTheme.bodyLarge,
+              style: bodyLargeTheme,
             ),
             SizedBox(
               height: 170,
@@ -33,7 +33,7 @@ class LoadingScreen extends StatelessWidget {
                         return Text(
                           'The computer will generate a number from 1-${snapshot.data}.',
                           textAlign: TextAlign.left,
-                          style: textTheme.bodyMedium,
+                          style: bodyMediumTheme,
                         );
                       }
                       return const Text('');
@@ -52,15 +52,22 @@ class LoadingScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 50),
-            DefaultButton(
+            ElevatedButton(
               onPressed: () => Utils().moveToNewScreen(
                 context,
                 const PlayingScreen(),
               ),
-              text: "Let's Go!",
-              textStyle: textTheme.displayMedium!,
-              icon: Icons.start,
-            ),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 15,
+                  horizontal: 20,
+                ),
+                child: Text(
+                  'Let\'s Go!',
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+              ),
+            )
           ],
         ),
       ),
