@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/widgets/default_button.dart';
 import 'package:guess_o_rama/widgets/default_screen.dart';
 import 'package:guess_o_rama/screens/loading_screen.dart';
@@ -14,8 +13,8 @@ class HomeScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return DefaultScreen(
-      useAppbar: false,
-      body: Center(
+      useAppBar: false,
+      screen: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -25,31 +24,27 @@ class HomeScreen extends StatelessWidget {
               child: Image(image: AssetImage('assets/Logo.png')),
             ),
             const SizedBox(height: 50),
-            Column(
-              children: [
-                DefaultButton(
-                  onPressed: () => Utils().moveToNewScreen(
-                    context,
-                    const LoadingScreen(),
-                  ),
-                  text: 'PLAY',
-                  textStyle: textTheme.displayLarge!,
-                  icon: Icons.play_arrow,
-                  iconSize: 40,
-                ),
-                const SizedBox(height: 20),
-                DefaultButton(
-                  secondary: true,
-                  onPressed: () => Utils().moveToNewScreen(
-                    context,
-                    const ChooseNumberLimitScreen(),
-                  ),
-                  text: 'EDIT',
-                  textStyle: textTheme.displayLarge!,
-                  icon: Icons.edit,
-                  iconSize: 40,
-                ),
-              ],
+            DefaultButton(
+              onPressed: () => Utils().moveToNewScreen(
+                context,
+                const LoadingScreen(),
+              ),
+              text: 'PLAY',
+              textStyle: textTheme.displayLarge!,
+              icon: Icons.play_arrow,
+              iconSize: 40,
+            ),
+            const SizedBox(height: 20),
+            DefaultButton(
+              secondary: true,
+              onPressed: () => Utils().moveToNewScreen(
+                context,
+                const ChooseNumberLimitScreen(),
+              ),
+              text: 'EDIT',
+              textStyle: textTheme.displayLarge!,
+              icon: Icons.edit,
+              iconSize: 40,
             )
           ],
         ),

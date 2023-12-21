@@ -18,7 +18,7 @@ class ResultsScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return DefaultScreen(
-      body: Column(
+      screen: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
@@ -34,6 +34,15 @@ class ResultsScreen extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 70),
+          DefaultButton(
+            onPressed: () => Utils().moveToNewScreen(
+              context,
+              const PlayingScreen(),
+            ),
+            text: 'Play Again',
+            textStyle: textTheme.displayMedium!,
+            icon: Icons.fast_forward,
+          ),
           DefaultButton(
             onPressed: () => Utils().moveToNewScreen(
               context,
