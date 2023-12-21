@@ -38,10 +38,7 @@ class DefaultButton extends StatelessWidget {
           color: colorScheme.primary,
         ),
         label: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 20,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Text(
             text,
             style: textStyle.copyWith(color: kColorScheme.primary),
