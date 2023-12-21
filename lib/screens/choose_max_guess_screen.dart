@@ -45,7 +45,7 @@ class _ChooseNumberLimitScreenState extends State<ChooseNumberLimitScreen> {
     final textTheme = Theme.of(context).textTheme;
 
     return DefaultScreen(
-      body: Column(
+      screen: Column(
         children: [
           Text(
             'If you want to change the number you are guessing upto, enter the number and press OK.',

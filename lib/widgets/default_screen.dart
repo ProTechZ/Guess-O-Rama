@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:guess_o_rama/functions/utility_functions.dart';
-import 'package:guess_o_rama/main.dart';
 import 'package:guess_o_rama/screens/home_screen.dart';
-import 'package:guess_o_rama/screens/playing_screen.dart';
+import 'package:guess_o_rama/functions/utility_functions.dart';
 
 class DefaultScreen extends StatelessWidget {
   const DefaultScreen({
     super.key,
-    this.useRestart = false,
-    this.useAppbar = true,
-    required this.body,
+    this.appBarActions,
+    this.useAppBar = true,
+    required this.screen,
   });
 
-  final Widget body;
-  final bool useAppbar;
-  final bool useRestart;
+  final Widget screen;
+  final bool useAppBar;
+  final List<Widget>? appBarActions;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      appBar: useAppbar
+      appBar: useAppBar
           ? AppBar(
-            automaticallyImplyLeading: false,
+              automaticallyImplyLeading: false,
               title: GestureDetector(
                 onTap: () => Utils().moveToNewScreen(
                   context,
@@ -35,20 +35,7 @@ class DefaultScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              actions: useRestart
-                  ? [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.restart_alt,
-                          color: Colors.white,
-                        ),
-                        onPressed: () => Utils().moveToNewScreen(
-                          context,
-                          const PlayingScreen(),
-                        ),
-                      )
-                    ]
-                  : null,
+              actions: appBarActions ?? [],
               centerTitle: true,
             )
           : null,
@@ -56,10 +43,13 @@ class DefaultScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [kGreen, const Color.fromARGB(255, 75, 195, 99)],
+            colors: [
+              colorScheme.secondary,
+              const Color.fromARGB(255, 75, 195, 99),
+            ],
           ),
         ),
-        child: body,
+        child: screen,
       ),
     );
   }

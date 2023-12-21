@@ -142,8 +142,16 @@ class _PlayingScreenState extends State<PlayingScreen> {
     final textTheme = Theme.of(context).textTheme;
 
     return DefaultScreen(
-      useRestart: true,
-      body: Column(
+      appBarActions: [
+        IconButton(
+          icon: const Icon(Icons.restart_alt, color: Colors.white),
+          onPressed: () => Utils().moveToNewScreen(
+            context,
+            const PlayingScreen(),
+          ),
+        )
+      ],
+      screen: Column(
         children: [
           FutureBuilder(
             future: Utils().getMaxGuess(),
